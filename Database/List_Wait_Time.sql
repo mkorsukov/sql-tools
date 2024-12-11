@@ -1,13 +1,13 @@
-SELECT
-  wait_type as [Type],
-  cast(wait_time_ms / 1000.0 as int) as [Wait_Time_Seconds],
-  waiting_tasks_count as [Waiting_Tasks_Count],
+select
+  wait_type as "Type",
+  cast(wait_time_ms / 1000.0 as int) as "Wait_Time_Seconds",
+  waiting_tasks_count as "Waiting_Tasks_Count",
   -- CAST((wait_time_ms / 1000.0)/waiting_tasks_count as decimal(10,4)) as AVG_Waiting_Tasks_Count,
-  wait_time_ms * 100.0 / sum(wait_time_ms) over() as [Percentage_WaitTime]
+  wait_time_ms * 100.0 / sum(wait_time_ms) over() as "Percentage_WaitTime"
   --,waiting_tasks_count * 100.0 / SUM(waiting_tasks_count) over() as Percentage_Count
-FROM sys.dm_os_wait_stats
-WHERE
-  wait_type NOT IN (
+from sys.dm_os_wait_stats
+where
+  wait_type not in (
     N'BROKER_EVENTHANDLER',
     N'BROKER_RECEIVE_WAITFOR',
     N'BROKER_TASK_STOP',
@@ -89,7 +89,7 @@ WHERE
     N'WAITFOR_TASKSHUTDOWN',
     N'XE_TIMER_EVENT',
     N'XE_DISPATCHER_WAIT')
-  AND wait_time_ms >= 1
-ORDER BY
-  Wait_Time_Seconds DESC;
--- ORDER BY Waiting_Tasks_Count DESC
+  and wait_time_ms >= 1
+order by
+  Wait_Time_Seconds desc;
+-- order by Waiting_Tasks_Count desc

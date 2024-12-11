@@ -8,6 +8,5 @@ FROM sys.database_files f
 where
   f.type_desc in ('ROWS', 'LOG');
 
-
 -- dbcc shrinkdatabase (N'database_name');
 -- update indexes after shrink!

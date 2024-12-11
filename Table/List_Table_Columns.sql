@@ -9,7 +9,8 @@ select
     else DATA_TYPE
   end as "DATA_TYPE",
   IS_NULLABLE
-from INFORMATION_SCHEMA.COLUMNS
+from
+  INFORMATION_SCHEMA.COLUMNS
 where
   TABLE_NAME = 'Table'
 order by

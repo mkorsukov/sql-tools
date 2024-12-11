@@ -1,6 +1,6 @@
 select
-  i.[name] as [Name],
-  substring(column_names, 1, len(column_names) - 1) as [Columns],
+  i.[name] as "Name",
+  substring(column_names, 1, len(column_names) - 1) as "Columns",
   case
     when i.[type] = 1 then N'Clustered index'
     when i.[type] = 2 then N'Nonclustered unique index'
@@ -9,12 +9,12 @@ select
     when i.[type] = 5 then N'Clustered columnstore index'
     when i.[type] = 6 then N'Nonclustered columnstore index'
     when i.[type] = 7 then N'Nonclustered hash index'
-  end as [Type],
+  end as "Type",
   case
     when i.is_unique = 1 then N'Unique'
     else N'Not unique'
-  end as [IsUnique],
-  schema_name(t.schema_id) + '.' + t.[name] as [TableView]
+  end as "IsUnique",
+  schema_name(t.schema_id) + '.' + t.[name] as "Table"
   -- case when t.[type] = 'U' then 'Table'
   --   when t.[type] = 'V' then 'View'
   --   end as [object_type]
