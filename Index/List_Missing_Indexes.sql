@@ -10,9 +10,9 @@ select top 25
   + ' on ' + object_name(dm_mid.OBJECT_ID, dm_mid.database_id) --dm_mid.statement
   + ' (' + isnull(dm_mid.equality_columns, '')
   + case when dm_mid.equality_columns is not null and dm_mid.inequality_columns is not null then ',' else '' end
-  + isnull (dm_mid.inequality_columns, '')
+  + isnull(dm_mid.inequality_columns, '')
   + ')'
-  + isnull (' include (' + dm_mid.included_columns + ')', '')
+  + isnull(' include (' + dm_mid.included_columns + ')', '')
   + ';' as "Statement"
 from
   sys.dm_db_missing_index_groups dm_mig
@@ -21,4 +21,5 @@ from
 where
   dm_mid.database_ID = DB_ID()
 order by
+  "TableName" asc,
   "Avg_Estimated_Impact" desc;

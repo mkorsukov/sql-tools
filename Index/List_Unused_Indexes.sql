@@ -15,8 +15,7 @@ from
   inner join sys.schemas s on o.schema_id = s.schema_id
   inner join (
     select sum(p.rows) TableRows, p.index_id, p.OBJECT_ID
-    from sys.partitions p group by p.index_id, p.OBJECT_ID) p
-    on p.index_id = dm_ius.index_id and dm_ius.OBJECT_ID = p.OBJECT_ID
+    from sys.partitions p group by p.index_id, p.OBJECT_ID) p on p.index_id = dm_ius.index_id and dm_ius.OBJECT_ID = p.OBJECT_ID
 where
   objectproperty(dm_ius.OBJECT_ID, 'IsUserTable') = 1
   and dm_ius.database_id = db_id()
@@ -24,4 +23,5 @@ where
   and i.is_primary_key = 0
   and i.is_unique_constraint = 0
 order by
+  o.name asc,
   (dm_ius.user_seeks + dm_ius.user_scans + dm_ius.user_lookups) asc;
