@@ -1,21 +1,21 @@
-DECLARE @TableName VARCHAR(255);
-DECLARE @sql NVARCHAR(500);
-DECLARE @fillfactor INT;
-SET @fillfactor = 80;
+declare @TableName varchar(255);
+declare @Sql nvarchar(500);
+declare @FillFactor int = 80;
 
-DECLARE TableCursor CURSOR FOR
-SELECT QUOTENAME(OBJECT_SCHEMA_NAME([object_id]))+'.' + QUOTENAME(name) AS TableName
-FROM sys.tables;
+declare TableCursor cursor for
+  select quotename(object_schema_name([object_id]))+'.' + quotename(name) as "TableName"
+  from sys.tables;
 
-OPEN TableCursor
-  FETCH NEXT FROM TableCursor INTO @TableName
-  WHILE @@FETCH_STATUS = 0
-  BEGIN
-    SET @sql = 'ALTER INDEX ALL ON ' + @TableName + ' REBUILD WITH (FILLFACTOR = ' + CONVERT(VARCHAR(3),@fillfactor) + ')';
-    EXEC (@sql);
-    FETCH NEXT FROM TableCursor INTO @TableName;
-  END
-CLOSE TableCursor;
-DEALLOCATE TableCursor;
+open TableCursor
+  fetch next from TableCursor into @TableName
+  while @@FETCH_STATUS = 0
+  begin
+    set @Sql = 'ALTER INDEX ALL ON ' + @TableName + ' REBUILD WITH (FILLFACTOR = ' + convert(varchar(3), @FillFactor) + ')';
+    exec (@Sql);
+    fetch next from TableCursor into @TableName;
+  end
 
-GO
+close TableCursor;
+deallocate TableCursor;
+
+go
